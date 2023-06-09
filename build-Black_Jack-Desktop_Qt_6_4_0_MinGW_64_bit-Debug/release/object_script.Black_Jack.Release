@@ -1,0 +1,11 @@
+release/BJ_game.o
+release/gamebar.o
+release/main.o
+release/BJ_window.o
+release/menu.o
+release/skin_menu.o
+release/moc_BJ_game.o
+release/moc_BJ_window.o
+release/moc_gamebar.o
+release/moc_menu.o
+release/moc_skin_menu.o

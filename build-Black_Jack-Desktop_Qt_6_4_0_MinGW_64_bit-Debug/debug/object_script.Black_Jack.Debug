@@ -1,0 +1,11 @@
+debug/BJ_game.o
+debug/gamebar.o
+debug/main.o
+debug/BJ_window.o
+debug/menu.o
+debug/skin_menu.o
+debug/moc_BJ_game.o
+debug/moc_BJ_window.o
+debug/moc_gamebar.o
+debug/moc_menu.o
+debug/moc_skin_menu.o
