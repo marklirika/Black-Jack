@@ -69,7 +69,7 @@ private:
     std::vector<QLabel*> hostCards;
     std::vector<QLabel*> dealerCards;
 
-    QLabel* backgroundLabel;
+    QLabel* background;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout* centralHelperLayout;

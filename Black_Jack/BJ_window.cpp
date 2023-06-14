@@ -39,20 +39,20 @@ BJwindow::BJwindow(QWidget* parent)
 
 void BJwindow::setupSound() {
     sound = new QMediaPlayer(this);
-    audioOutput_2 = new QAudioOutput(this);
-    sound->setAudioOutput(audioOutput_2);
+    soundOutput = new QAudioOutput(this);
+    sound->setAudioOutput(soundOutput);
     sound->setSource(QString(QCoreApplication::applicationDirPath() + "/audio/card.mp3"));
-    audioOutput_2->setVolume(50);
+    soundOutput->setVolume(50);
 
     connect(gamebar, &Gamebar::sound, sound, &QMediaPlayer::play);
 }
 
 void BJwindow::setupMusicLoop() {
     bkgndMusic = new QMediaPlayer(this);
-    audioOutput_1 = new QAudioOutput(this);
-    bkgndMusic->setAudioOutput(audioOutput_1);
+    musicOutput = new QAudioOutput(this);
+    bkgndMusic->setAudioOutput(musicOutput);
     bkgndMusic->setSource(QString(QCoreApplication::applicationDirPath() + "/audio/boat.mp3"));
-    audioOutput_1->setVolume(50);
+    musicOutput->setVolume(50);
     bkgndMusic->play();
     connect(bkgndMusic, &QMediaPlayer::mediaStatusChanged, bkgndMusic, &QMediaPlayer::play);
 }
@@ -77,7 +77,6 @@ void BJwindow::start() {
     if (game->getHost().score < 21) {
         gamebar->showMatchTable();
     }
-    gamebar->resize();
 }
 
 void BJwindow::showMenu() {
@@ -90,7 +89,6 @@ void BJwindow::finishMatch(Winner& winner) {
     gamebar->showMatchTable();
     gamebar->revealDealerCards();
     gamebar->declareWinner(winner);
-    gamebar->resize();
 }
 
 void BJwindow::handleMenuButtonClicked() {
@@ -98,11 +96,11 @@ void BJwindow::handleMenuButtonClicked() {
 }
 
 void BJwindow::handleSoundButtonClicked() {
-    if (audioOutput_1->volume() == 0) {
-        audioOutput_1->setVolume(50);
+    if (musicOutput->volume() == 0) {
+        musicOutput->setVolume(50);
     }
     else {
-        audioOutput_1->setVolume(0);
+        musicOutput->setVolume(0);
     }
 }
 

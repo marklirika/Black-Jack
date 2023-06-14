@@ -50,8 +50,8 @@ private:
     BJgame* game;
     Gamebar* gamebar;
 
-    QAudioOutput* audioOutput_1;
-    QAudioOutput* audioOutput_2;
+    QAudioOutput* musicOutput;
+    QAudioOutput* soundOutput;
     QMediaPlayer* bkgndMusic;
     QMediaPlayer* sound;
 

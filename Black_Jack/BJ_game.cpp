@@ -113,7 +113,7 @@ void BJgame::setBet(int value) {
 void BJgame::reset() {
     this->host.score = 0;
     this->dealer.score = 0;
-    //this->dealer.cardsHidden = true;
+    this->dealer.cardsHidden = true;
     if (!host.hand.empty()) {
         host.hand.clear();
     }

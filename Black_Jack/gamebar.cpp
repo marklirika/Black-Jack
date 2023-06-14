@@ -1,3 +1,5 @@
+#define WIDTH 600
+#define HEIGHT 420
 #include "gamebar.h"
 
 #include <QCoreApplication>
@@ -30,13 +32,14 @@ Gamebar::~Gamebar() {
 }
 
 void Gamebar::setBackground() {
-    backgroundLabel->lower();
-    backgroundLabel->setPixmap(QPixmap(QCoreApplication::applicationDirPath() + "/images/blackjack_table.png"));
-    backgroundLabel->setScaledContents(true);
-    backgroundLabel->setGeometry(0, 0, parentWidget()->width(), parentWidget()->height());
+    background->lower();
+    background->setPixmap(QPixmap(QCoreApplication::applicationDirPath() + "/images/blackjack_table.png"));
+    background->setScaledContents(true);
+    background->setGeometry(0, 0, parentWidget()->width(), parentWidget()->height());
 }
+
 void Gamebar::initButtons() {
-    backgroundLabel = new QLabel(parentWidget());
+    background = new QLabel(parentWidget());
 
     spacer = new QSpacerItem(parentWidget()->width(), 0, QSizePolicy::Maximum, QSizePolicy::Fixed);
 
@@ -83,7 +86,6 @@ void Gamebar::setupGamebar() {
         if (game->getHost().score < 21) {
             this->showMatchTable();
         }
-        resize();
     });
     connect(finishButton, &QPushButton::clicked, [&]() {
         game->finishMatch();
@@ -107,47 +109,55 @@ void Gamebar::setupGamebar() {
 void Gamebar::resize() {
     int width = parentWidget()->width();
     int height = parentWidget()->height();
-
-    backgroundLabel->setFixedSize(width, height);
+    background->setFixedSize(width, height);
+    QSize newPixmapSize = QSize(60 * (width / WIDTH), 90 * (height / HEIGHT));
+    QPixmap pixmap;
 
     menuButton->setFixedSize(height / 12, height / 12);
     restartButton->setFixedSize(height / 12, height / 12);
 
-
     for (auto& el : game->getHost().hand) {
-        QPixmap pixmap = el.face;
-        pixmap.scaled(QSize(width / 12 + 20, height / 8 + 16), Qt::KeepAspectRatio);
+        pixmap = el.face;
+        pixmap.scaled(newPixmapSize, Qt::KeepAspectRatio);
         el.face = pixmap;
         pixmap = el.shirt;
-        pixmap.scaled(QSize(width / 12 + 20, height / 8 + 16), Qt::KeepAspectRatio);
+        pixmap.scaled(newPixmapSize, Qt::KeepAspectRatio);
         el.shirt = pixmap;
     }
 
     for (auto& el : game->getDealer().hand) {
-        QPixmap pixmap = el.face;
-        pixmap.scaled(QSize(width / 12 + 20, height / 8 + 16), Qt::KeepAspectRatio);
+        pixmap = el.face;
+        pixmap.scaled(newPixmapSize, Qt::KeepAspectRatio);
         el.face = pixmap;
         pixmap = el.shirt;
-        pixmap.scaled(QSize(width / 12 + 20, height / 8 + 16), Qt::KeepAspectRatio);
+        pixmap.scaled(newPixmapSize, Qt::KeepAspectRatio);
         el.shirt = pixmap;
     }
 
     for (int i = 0; i < hostCards.size(); i++) {
-        QPixmap pixmap = game->getHost().hand[i].face.scaled(QSize(width / 12 + 20, height / 8 + 16), Qt::KeepAspectRatio);
-        hostCards[i]->move(pixmap.width() + pixmap.width() * i, height / 3);
+        pixmap = game->getHost().hand[i].face;
+        pixmap = pixmap.scaled(newPixmapSize, Qt::KeepAspectRatio);
+
+        hostCards[i]->move(pixmap.width() * (i + 1), height / 3);
         hostCards[i]->setPixmap(pixmap);
         hostCards[i]->setFixedSize(pixmap.size());
     }
 
     for (int i = 0; i < dealerCards.size(); i++) {
-        QPixmap pixmap = game->getDealer().hand[i].face.scaled(QSize(width / 12 + 20, height / 8 + 16), Qt::KeepAspectRatio);
-        dealerCards[i]->move(width - (2 * pixmap.width() + pixmap.width() * i), height / 3);
+        if (game->getDealer().cardsHidden) {
+            pixmap = game->getDealer().hand[i].shirt;
+        }
+        else {
+            pixmap = game->getDealer().hand[i].face;
+        }
+        pixmap = pixmap.scaled(newPixmapSize, Qt::KeepAspectRatio);
+        dealerCards[i]->move(width - (pixmap.width() * (i + 2)), height / 3);
         dealerCards[i]->setPixmap(pixmap);
         dealerCards[i]->setFixedSize(pixmap.size());
     }
 
     if (winnerBar != nullptr) {
-        QPixmap pixmap = winnerBar->pixmap().scaled(QSize(width / 2, height / 2), Qt::KeepAspectRatio);
+        pixmap = winnerBar->pixmap().scaled(QSize(width / 2, height / 2), Qt::KeepAspectRatio);
         winnerBar->setPixmap(pixmap);
         winnerBar->setFixedSize(pixmap.size());
         winnerBar->move(width / 4, height / 2);
@@ -176,14 +186,14 @@ void Gamebar::showMatchTable() {
     dealerCardIndex = dealerCards.size();
     auto& realHostHand = game->getHost().hand;
     auto& realDealerHand = game->getDealer().hand;
+    int width = parentWidget()->width();
+    int height = parentWidget()->height();
     QPixmap pixmap;
+    QSize pixmapSize = QSize(60 * (width / WIDTH), 90 * (height / HEIGHT));
 
     for (int i = this->hostCards.size(); i < realHostHand.size(); i++) {
         QLabel* card = new QLabel(this);
-        pixmap = realHostHand[i].face.scaled(
-                    QSize(parentWidget()->width() / 12 + 20,
-                           parentWidget()->height() / 8 + 16),
-                     Qt::KeepAspectRatio);
+        pixmap = realHostHand[i].face.scaled(pixmapSize, Qt::KeepAspectRatio);
         card->setPixmap(pixmap);
         card->setFixedSize(pixmap.size());
         hostCards.push_back(card);
@@ -191,10 +201,7 @@ void Gamebar::showMatchTable() {
 
     for (int i = dealerCards.size(); i < realDealerHand.size(); i++) {
         QLabel* card = new QLabel(this);
-        pixmap = realDealerHand[i].shirt.scaled(
-                    QSize(parentWidget()->width() / 12 + 20,
-                          parentWidget()->height() / 8 + 16),
-                    Qt::KeepAspectRatio);
+        pixmap = realDealerHand[i].shirt.scaled(pixmapSize, Qt::KeepAspectRatio);
         card->setPixmap(pixmap);
         card->setFixedSize(pixmap.size());
         dealerCards.push_back(card);
@@ -206,10 +213,7 @@ void Gamebar::showMatchTable() {
         auto& realHostHand = game->getHost().hand;
         auto& realDealerHand = game->getDealer().hand;
         int i = hostCards.size() - 1;
-        int pixmapWidth = realHostHand[i].shirt.scaled(
-                    QSize(parentWidget()->width() / 12 + 20 + (parentWidget()->width() / 10),
-                          parentWidget()->height() / 8 + 16),
-                    Qt::KeepAspectRatio).width();
+        int pixmapWidth = 60 * (width / WIDTH);
 
         if (hostCardIndex < realHostHand.size()) {
             QPoint startPosition(width / 2, 0);
@@ -298,8 +302,8 @@ void Gamebar::revealDealerCards() {
     game->getDealer().cardsHidden = false;
     for (int i = 0; i < game->getDealer().hand.size(); i++) {
         dealerCards[i]->setPixmap(game->getDealer().hand[i].face.scaled(
-            QSize(game->getDealer().hand[i].face.width() * (parentWidget()->width() / 600),
-                  game->getDealer().hand[i].face.height() * (parentWidget()->height() / 400)), Qt::KeepAspectRatio));
+                                      60 * (parentWidget()->width() / WIDTH), 90 * (parentWidget()->height() / HEIGHT)));
+        dealerCards[i]->setFixedSize(60 * (parentWidget()->width() / WIDTH), 90 * (parentWidget()->height() / HEIGHT));
     }
     setDealerScoreBar();
 }
