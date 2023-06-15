@@ -1,23 +1,26 @@
 #pragma once
 
 #include <QWidget>
+#include <QVBoxLayout>
 #include <QPushButton>
 
-class Menu : public QWidget {
-    Q_OBJECT
+namespace BJ {
+    class MainMenu : public QWidget {
+        Q_OBJECT
 
-public:
-    Menu(QWidget* parent = 0);
+    public:
+        MainMenu(QWidget* parent = 0);
 
-signals:
-    void soundButtonClicked();
-    void faceButtonClicked();
-    void shirtButtonClicked();
-    void backButtonClicked();
+    signals:
+        void soundButtonClicked();
+        void faceButtonClicked();
+        void shirtButtonClicked();
+        void backButtonClicked();
 
-private:
-    QPushButton* soundButton;
-    QPushButton* faceButton;
-    QPushButton* shirtButton;
-    QPushButton* backButton;
-};
+    private:
+        QPushButton* soundButton;
+        QPushButton* faceButton;
+        QPushButton* shirtButton;
+        QPushButton* backButton;
+    };
+} //namepace BJ

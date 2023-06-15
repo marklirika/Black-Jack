@@ -1,95 +1,98 @@
-#ifndef GAMEBAR_H
-#define GAMEBAR_H
-#include "BJ_game.h"
+#pragma once
 
-#include<QTimer>
+// Custom
+#include "game.h"
+
+//Qt
+#include <QCoreApplication>
 #include <QWidget>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QLabel>
 #include <QSpinBox>
+#include <QMessageBox>
+#include<QTimer>
+#include <QLabel>
+#include <QPropertyAnimation>
+#include <QGraphicsOpacityEffect>
 #include <QMenu>
+#include <QMenuBar>
+#include <QEventLoop>
 
-#include <iostream>
-#include <memory>
+namespace BJ {
+    class BJwindow;
 
-class BJwindow;
+    class Gamebar : public QWidget {
+        Q_OBJECT;
 
-class Gamebar : public QWidget {
-    Q_OBJECT;
+    public:
+        explicit Gamebar(Game* game, QWidget* parent = nullptr);
+        ~Gamebar();
 
-public:
-    explicit Gamebar(BJgame* game, QWidget* parent = nullptr);
-    ~Gamebar();
+        // rendering
+        void showMatchTable();
+        void resize();
+        void revealDealerCards();
+        void declareWinner(Winner& winner);
 
-    void setupGamebar();
-    void setBackground();
-    void initButtons();
+        void showHostScoreBar();
+        void showDealerScoreBar();
+        void hideScoreBar(QWidget* scoreBar);
 
-    void showMatchTable();
+        // logic
+        void setupGamebar();
+        void initButtons();
+        void setBackground();
 
-    void addToCentralWidget(std::vector<QWidget*> widgets);
-    void removeFromCentralWidget(std::vector<QWidget*> widgets);
+        void addToCentralWidget(std::vector<QWidget*> widgets);
+        void removeFromCentralWidget(std::vector<QWidget*> widgets);
 
-    void showScoreBar(QWidget* scoreBar);
-    void hideScoreBar(QWidget* scoreBar);
-    void setHostScoreBar();
-    void setDealerScoreBar();
+        void setupStartMatchWidget();
+        void setupEndMatchWidget();
+        void restart();
 
-    void revealDealerCards();
-    void declareWinner(Winner& winner);
-    const std::vector<QLabel*>& getHostHand() const { return hostCards; }
-    const std::vector<QLabel*>& getDealerHand() const { return dealerCards; }
+        void deleteObjects();
 
-    void setupStartMatchWidget();
-    void setupEndMatchWidget();
+        const std::vector<QLabel*>& getHostHand() const { return hostCards; }
+        const std::vector<QLabel*>& getDealerHand() const { return dealerCards; }
+    signals:
+        void betButtonClicked();
+        void menuButtonClicked();
+        void sound();
 
-    void showMenu();
-    void resize();
+    public slots:
+        void handleSetSkin();
 
-    void restart();
-    void deleteObjects();
+    private:
+        int hostCardIndex = 0;
+        int dealerCardIndex = 0;
 
-signals:
-    void betButtonClicked();
-    void menuButtonClicked();
-    void sound();
+        Game* game;
+        QTimer* timer;
 
-public slots:
-    void handleSetSkin();
+        std::vector<QLabel*> hostCards;
+        std::vector<QLabel*> dealerCards;
 
-private:
-    int hostCardIndex = 0;
-    int dealerCardIndex = 0;
+        QLabel* background;
 
-    BJgame* game;
-    QTimer* timer;
+        QHBoxLayout* mainLayout;
+        QVBoxLayout* centralHelperLayout;
+        QHBoxLayout* leftHelperLayout;
+        QSpacerItem* spacer;
 
-    std::vector<QLabel*> hostCards;
-    std::vector<QLabel*> dealerCards;
+        QLabel* hostScoreBar;
+        QLabel* dealerScoreBar;
+        QLabel* balanceBar;
+        QLabel* winnerBar;
 
-    QLabel* background;
-
-    QHBoxLayout* mainLayout;
-    QVBoxLayout* centralHelperLayout;
-    QHBoxLayout* leftHelperLayout;
-    QSpacerItem* spacer;
-
-    QLabel* hostScoreBar;
-    QLabel* dealerScoreBar;
-    QLabel* balance;
-    QLabel* winnerBar;
-
-    QSpinBox* spinbox;
-
-    QPushButton* menuButton;
-    QPushButton* restartButton;
-    QPushButton* betButton;
-    QPushButton* drawCardButton;
-    QPushButton* finishButton;
-    QPushButton* playAgainButton;
-};
-#endif // GAMEBAR_H
+        QSpinBox* spinbox;
+        QPushButton* menuButton;
+        QPushButton* restartButton;
+        QPushButton* betButton;
+        QPushButton* drawCardButton;
+        QPushButton* finishButton;
+        QPushButton* playAgainButton;
+    };
+} //namepace BJ
 
 

@@ -8,6 +8,7 @@
 
 #include <memory>
 #include "../../Black_Jack/BJ_game.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'BJ_game.h' doesn't include <QObject>."

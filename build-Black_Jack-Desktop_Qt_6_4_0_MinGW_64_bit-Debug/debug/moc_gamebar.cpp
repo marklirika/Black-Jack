@@ -26,9 +26,9 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
-struct qt_meta_stringdata_Gamebar_t {
+struct qt_meta_stringdata_BJ__Gamebar_t {
     uint offsetsAndSizes[12];
-    char stringdata0[8];
+    char stringdata0[12];
     char stringdata1[17];
     char stringdata2[1];
     char stringdata3[18];
@@ -36,17 +36,17 @@ struct qt_meta_stringdata_Gamebar_t {
     char stringdata5[14];
 };
 #define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_Gamebar_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_Gamebar_t qt_meta_stringdata_Gamebar = {
+    uint(sizeof(qt_meta_stringdata_BJ__Gamebar_t::offsetsAndSizes) + ofs), len 
+Q_CONSTINIT static const qt_meta_stringdata_BJ__Gamebar_t qt_meta_stringdata_BJ__Gamebar = {
     {
-        QT_MOC_LITERAL(0, 7),  // "Gamebar"
-        QT_MOC_LITERAL(8, 16),  // "betButtonClicked"
-        QT_MOC_LITERAL(25, 0),  // ""
-        QT_MOC_LITERAL(26, 17),  // "menuButtonClicked"
-        QT_MOC_LITERAL(44, 5),  // "sound"
-        QT_MOC_LITERAL(50, 13)   // "handleSetSkin"
+        QT_MOC_LITERAL(0, 11),  // "BJ::Gamebar"
+        QT_MOC_LITERAL(12, 16),  // "betButtonClicked"
+        QT_MOC_LITERAL(29, 0),  // ""
+        QT_MOC_LITERAL(30, 17),  // "menuButtonClicked"
+        QT_MOC_LITERAL(48, 5),  // "sound"
+        QT_MOC_LITERAL(54, 13)   // "handleSetSkin"
     },
-    "Gamebar",
+    "BJ::Gamebar",
     "betButtonClicked",
     "",
     "menuButtonClicked",
@@ -56,7 +56,7 @@ Q_CONSTINIT static const qt_meta_stringdata_Gamebar_t qt_meta_stringdata_Gamebar
 #undef QT_MOC_LITERAL
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_Gamebar[] = {
+Q_CONSTINIT static const uint qt_meta_data_BJ__Gamebar[] = {
 
  // content:
       10,       // revision
@@ -88,13 +88,13 @@ Q_CONSTINIT static const uint qt_meta_data_Gamebar[] = {
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject Gamebar::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject BJ::Gamebar::staticMetaObject = { {
     QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
-    qt_meta_stringdata_Gamebar.offsetsAndSizes,
-    qt_meta_data_Gamebar,
+    qt_meta_stringdata_BJ__Gamebar.offsetsAndSizes,
+    qt_meta_data_BJ__Gamebar,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_Gamebar_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_BJ__Gamebar_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Gamebar, std::true_type>,
         // method 'betButtonClicked'
@@ -109,7 +109,7 @@ Q_CONSTINIT const QMetaObject Gamebar::staticMetaObject = { {
     nullptr
 } };
 
-void Gamebar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void BJ::Gamebar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         auto *_t = static_cast<Gamebar *>(_o);
@@ -148,20 +148,20 @@ void Gamebar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
     (void)_a;
 }
 
-const QMetaObject *Gamebar::metaObject() const
+const QMetaObject *BJ::Gamebar::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *Gamebar::qt_metacast(const char *_clname)
+void *BJ::Gamebar::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_Gamebar.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_BJ__Gamebar.stringdata0))
         return static_cast<void*>(this);
     return QWidget::qt_metacast(_clname);
 }
 
-int Gamebar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int BJ::Gamebar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -179,19 +179,19 @@ int Gamebar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Gamebar::betButtonClicked()
+void BJ::Gamebar::betButtonClicked()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 
 // SIGNAL 1
-void Gamebar::menuButtonClicked()
+void BJ::Gamebar::menuButtonClicked()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }
 
 // SIGNAL 2
-void Gamebar::sound()
+void BJ::Gamebar::sound()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }

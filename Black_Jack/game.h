@@ -1,82 +1,58 @@
 #pragma once
+
+// Custom
+#include "game_structs.h"
+
+// Qt
 #include <QPixmap>
 #include <QObject>
 #include <QString>
 #include <QCoreApplication>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QCoreApplication>
+#include <QMessageBox>
 
+//std
 #include <vector>
 
-struct Card {
-    QString name;
-    int value;
-    QPixmap face;
-    QPixmap shirt;
-};
+namespace BJ {
+    class Game : public QObject {
+        Q_OBJECT
 
-struct Player {
-    int bank;
-    int score;
-    bool cardsHidden;
-    std::vector<Card> hand;
-};
+    public:
+        explicit Game(QObject* parent = nullptr);
+        ~Game(){}
 
-struct Deck {
-    void setup();
-    void setupCardsSkins();
+        void setupMatch();
+        void scoreHost();
+        void scoreDealer();
+        void reset();
+        void restart();
+        void finishMatch();
 
-    void shuffle();
-    void deal(int quantityOfCards, Player& player);
+        void setBet(int value);
+        const int& getBank() const { return host.bank; }
+        const int& getPot() const { return pot; }
+        Player& getHost() { return host; }
+        Player& getDealer() { return dealer; }
+        Deck& getDeck() { return deck; }
 
-    void setCardPath(const QString& path);
-    void setSkins(const QString&path);
+    signals:
+        void finishMatchSignal(Winner winner);
+        void gameOverSignal();
+        void setGamebarSkin();
 
-    QString skinPath = QString(QCoreApplication::applicationDirPath() + "/images/cardset_1/");
-    std::vector<Card> cards;
-};
+    public slots:
+        void handleSetSkin(const QString& text);
 
-enum Winner {
-    HOST,
-    DEALER,
-    DRAW,
-    UNKNOWN
-};
+    private:
+        int pot;
 
-class BJgame : public QObject {
-    Q_OBJECT
+        Player host;
+        Player dealer;
+        Winner winner;
 
-public:
-    explicit BJgame(QObject* parent = nullptr);
-    ~BJgame(){}
-
-    void setupMatch();
-    void scoreHost();
-    void scoreDealer();
-    void reset();
-    void restart();
-    void finishMatch();
-
-    void setBet(int value);
-    const int& getBank() const { return host.bank; }
-    const int& getPot() const { return pot; }
-    Player& getHost() { return host; }
-    Player& getDealer() { return dealer; }
-    Deck& getDeck() { return deck; }
-
-signals:
-    void finishMatchSignal(Winner winner);
-    void gameOverSignal();
-    void setGamebarSkin();
-
-public slots:
-    void handleSetSkin(const QString& text);
-
-private:
-    int pot;
-
-    Player host;
-    Player dealer;
-    Winner winner;
-
-    Deck deck;
-};
-
+        Deck deck;
+    };
+} //namepace BJ

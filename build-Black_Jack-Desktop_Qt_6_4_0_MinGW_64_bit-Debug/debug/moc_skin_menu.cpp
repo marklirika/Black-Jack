@@ -26,23 +26,23 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
-struct qt_meta_stringdata_SkinMenu_t {
+struct qt_meta_stringdata_BJ__SkinMenu_t {
     uint offsetsAndSizes[8];
-    char stringdata0[9];
+    char stringdata0[13];
     char stringdata1[11];
     char stringdata2[1];
     char stringdata3[5];
 };
 #define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_SkinMenu_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_SkinMenu_t qt_meta_stringdata_SkinMenu = {
+    uint(sizeof(qt_meta_stringdata_BJ__SkinMenu_t::offsetsAndSizes) + ofs), len 
+Q_CONSTINIT static const qt_meta_stringdata_BJ__SkinMenu_t qt_meta_stringdata_BJ__SkinMenu = {
     {
-        QT_MOC_LITERAL(0, 8),  // "SkinMenu"
-        QT_MOC_LITERAL(9, 10),  // "skinChoice"
-        QT_MOC_LITERAL(20, 0),  // ""
-        QT_MOC_LITERAL(21, 4)   // "info"
+        QT_MOC_LITERAL(0, 12),  // "BJ::SkinMenu"
+        QT_MOC_LITERAL(13, 10),  // "skinChoice"
+        QT_MOC_LITERAL(24, 0),  // ""
+        QT_MOC_LITERAL(25, 4)   // "info"
     },
-    "SkinMenu",
+    "BJ::SkinMenu",
     "skinChoice",
     "",
     "info"
@@ -50,7 +50,7 @@ Q_CONSTINIT static const qt_meta_stringdata_SkinMenu_t qt_meta_stringdata_SkinMe
 #undef QT_MOC_LITERAL
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_SkinMenu[] = {
+Q_CONSTINIT static const uint qt_meta_data_BJ__SkinMenu[] = {
 
  // content:
       10,       // revision
@@ -72,13 +72,13 @@ Q_CONSTINIT static const uint qt_meta_data_SkinMenu[] = {
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject SkinMenu::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject BJ::SkinMenu::staticMetaObject = { {
     QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
-    qt_meta_stringdata_SkinMenu.offsetsAndSizes,
-    qt_meta_data_SkinMenu,
+    qt_meta_stringdata_BJ__SkinMenu.offsetsAndSizes,
+    qt_meta_data_BJ__SkinMenu,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_SkinMenu_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_BJ__SkinMenu_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<SkinMenu, std::true_type>,
         // method 'skinChoice'
@@ -88,7 +88,7 @@ Q_CONSTINIT const QMetaObject SkinMenu::staticMetaObject = { {
     nullptr
 } };
 
-void SkinMenu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void BJ::SkinMenu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         auto *_t = static_cast<SkinMenu *>(_o);
@@ -109,20 +109,20 @@ void SkinMenu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
     }
 }
 
-const QMetaObject *SkinMenu::metaObject() const
+const QMetaObject *BJ::SkinMenu::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *SkinMenu::qt_metacast(const char *_clname)
+void *BJ::SkinMenu::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_SkinMenu.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_BJ__SkinMenu.stringdata0))
         return static_cast<void*>(this);
     return QDialog::qt_metacast(_clname);
 }
 
-int SkinMenu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int BJ::SkinMenu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QDialog::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -140,7 +140,7 @@ int SkinMenu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void SkinMenu::skinChoice(const QString & _t1)
+void BJ::SkinMenu::skinChoice(const QString & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

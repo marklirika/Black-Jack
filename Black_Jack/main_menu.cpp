@@ -1,9 +1,8 @@
-#include "menu.h"
-#include <QVBoxLayout>
-#include <QPushButton>
+#include "main_menu.h"
 
-Menu::Menu(QWidget* parent)
-    : QWidget(parent) {
+namespace BJ {
+    MainMenu::MainMenu(QWidget* parent)
+        : QWidget(parent) {
 
     QVBoxLayout* vbox = new QVBoxLayout(this);
     vbox->setSpacing(1);
@@ -20,10 +19,10 @@ Menu::Menu(QWidget* parent)
     backButton = new QPushButton("Back", this);
     backButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    connect(soundButton, &QPushButton::clicked, this, &Menu::soundButtonClicked);
-    connect(faceButton, &QPushButton::clicked, this, &Menu::faceButtonClicked);
-    connect(shirtButton, &QPushButton::clicked, this, &Menu::shirtButtonClicked);
-    connect(backButton, &QPushButton::clicked, this, &Menu::backButtonClicked);
+    connect(soundButton, &QPushButton::clicked, this, &MainMenu::soundButtonClicked);
+    connect(faceButton, &QPushButton::clicked, this, &MainMenu::faceButtonClicked);
+    connect(shirtButton, &QPushButton::clicked, this, &MainMenu::shirtButtonClicked);
+    connect(backButton, &QPushButton::clicked, this, &MainMenu::backButtonClicked);
 
     vbox->addWidget(soundButton);
     vbox->addWidget(faceButton);
@@ -32,3 +31,4 @@ Menu::Menu(QWidget* parent)
 
     setLayout(vbox);
 }
+} //namepace BJ

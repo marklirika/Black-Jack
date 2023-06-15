@@ -1,29 +1,32 @@
 #pragma once
 
+// Qt
+#include<QCoreApplication>
 #include <QDialog>
 #include <QLayout>
 #include <QMouseEvent>
 #include <QLabel>
-#include<QCoreApplication>
 
+// std
 #include <map>
 
-class SkinMenu :
-    public QDialog
-{
-    Q_OBJECT
+namespace BJ {
+    class SkinMenu :
+        public QDialog
+    {
+        Q_OBJECT
 
-public:
-    SkinMenu(QWidget* parent = nullptr);
+    public:
+        SkinMenu(QWidget* parent = nullptr);
 
-    void mousePressEvent(QMouseEvent* event) override;
+        void mousePressEvent(QMouseEvent* event) override;
 
-    void populateWindow(const std::map<QString, QPixmap>& skins);
+        void populateWindow(const std::map<QString, QPixmap>& skins);
 
-signals:
-    void skinChoice(const QString& info);
+    signals:
+        void skinChoice(const QString& info);
 
-private:
-    std::map<QString, QLabel*> labelsInfo;
-};
-
+    private:
+        std::map<QString, QLabel*> labelsInfo;
+    };
+} //namepace BJ

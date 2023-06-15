@@ -1,73 +1,79 @@
 #pragma once
+// Custom
 #include "ui_BJwindow.h"
-#include "BJ_game.h"
+#include "game.h"
 #include "gamebar.h"
-#include "menu.h"
+#include "main_menu.h"
 #include "skin_menu.h"
 
-#include <QAudioOutput>
-#include <QMediaPlayer>
-#include <QPixmap>
-#include <QLabel>
+// QT
 #include <QtWidgets/QMainWindow>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+#include <QLabel>
+#include <QPixmap>
 #include <QString>
-#include <QMap>
 
+// std
 #include <map>
-class BJwindow : public QMainWindow
-{
-    Q_OBJECT
 
-public:
-    BJwindow(QWidget* parent = nullptr);
+namespace BJ {
+    class window : public QMainWindow
+    {
+        Q_OBJECT
 
-    void setupMusicLoop();
-    void setupSound();
+    public:
+        window(QWidget* parent = nullptr);
 
-    void start();
+        void setupMusicLoop();
+        void setupSoundSource();
 
-    void showMenu();
-signals:
-    void setGameSkin(const QString& text);
+        void startMatch();
+        void finishMatch(Winner& winner);
 
-public slots:
-    void handleBetButtonClicked();
-    void handleMenuButtonClicked();
+        void showMenu();
 
-    void handleSoundButtonClicked();
-    void handleFaceButtonClicked();
-    void handleShirtButtonClicked();
-    void handleBackButtonClicked();
+    signals:
+        void setGameSkin(const QString& text);
 
-    void handleSkinChoice(const QString& info);
+    public slots:
+        void handleBetButtonClicked();
+        void handleMenuButtonClicked();
+        void handleSoundButtonClicked();
+        void handleFaceButtonClicked();
+        void handleShirtButtonClicked();
+        void handleBackButtonClicked();
 
-    void finishMatch(Winner& winner);
+        void handleSkinChoice(const QString& info);
 
-protected:
-    void resizeEvent(QResizeEvent* event) override;
+        void handleMatchEnding(Winner& winner);
 
-private:
-    BJgame* game;
-    Gamebar* gamebar;
+    protected:
+        void resizeEvent(QResizeEvent* event) override;
 
-    QAudioOutput* musicOutput;
-    QAudioOutput* soundOutput;
-    QMediaPlayer* bkgndMusic;
-    QMediaPlayer* sound;
+    private:
+        Game* game;
+        Gamebar* gamebar;
 
-    const std::map<QString, QPixmap> faceSkins {
-        { QString(QCoreApplication::applicationDirPath() + "/images/cardset_1/"),
-                 QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_1/ace_of_spades.png")},
-        { QString(QCoreApplication::applicationDirPath() + "/images/cardset_2/"),
-                 QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_2/ace_of_spades.png")} };
+        QAudioOutput* musicOutput;
+        QAudioOutput* soundOutput;
+        QMediaPlayer* bkgndMusic;
+        QMediaPlayer* sound;
 
-    const std::map<QString, QPixmap> shirtSkins {
-        { QString(QCoreApplication::applicationDirPath() + "/images/cardset_1/"),
-            QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_1/shirt.png") },
-        { QString(QCoreApplication::applicationDirPath() + "/images/cardset_2/"),
-                    QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_2/shirt.png") } };
-    Menu* menu;
-    SkinMenu* skinMenu;
-    Ui::BJwindow ui;
-};
+        MainMenu* menu;
+        SkinMenu* skinMenu;
+        Ui::BJwindow ui;
 
+        const std::map<QString, QPixmap> faceSkins {
+            { QString(QCoreApplication::applicationDirPath() + "/images/cardset_1/"),
+                     QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_1/ace_of_spades.png")},
+            { QString(QCoreApplication::applicationDirPath() + "/images/cardset_2/"),
+                     QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_2/ace_of_spades.png")} };
+
+        const std::map<QString, QPixmap> shirtSkins {
+            { QString(QCoreApplication::applicationDirPath() + "/images/cardset_1/"),
+                QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_1/shirt.png") },
+            { QString(QCoreApplication::applicationDirPath() + "/images/cardset_2/"),
+                        QPixmap(QCoreApplication::applicationDirPath() + "/images/cardset_2/shirt.png") } };
+    };
+} //namepace BJ

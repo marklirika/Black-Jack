@@ -9,19 +9,23 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    BJ_game.cpp \
-    gamebar.cpp \
+    game.cpp \
+    game_structs.cpp \
+    gamebar_logic.cpp \
+    gamebar_rendering.cpp \
     main.cpp \
-    BJ_window.cpp \
-    menu.cpp \
-    skin_menu.cpp
+    main_menu.cpp \
+    skin_menu.cpp \
+    window_logic.cpp \
+    window_slots.cpp
 
 HEADERS += \
-    BJ_game.h \
-    BJ_window.h \
+    game.h \
+    game_structs.h \
     gamebar.h \
-    menu.h \
-    skin_menu.h
+    main_menu.h \
+    skin_menu.h \
+    window.h
 
 FORMS += \
     BJwindow.ui

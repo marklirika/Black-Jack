@@ -1,133 +1,81 @@
-#include "BJ_window.h"
-#include "gamebar.h"
-#include "skin_menu.h"
+#include "window.h"
 
-#include <QMessageBox>
+namespace BJ {
+    window::window(QWidget* parent) : QMainWindow(parent) {
+        ui.setupUi(this);
 
+        game = new Game(this);
+        gamebar = new Gamebar(game, this);
 
-BJwindow::BJwindow(QWidget* parent)
-    : QMainWindow(parent)
-{
-    ui.setupUi(this);
+        menu = new MainMenu(this);
+        menu->setEnabled(false);
+        menu->hide();
 
-    game = new BJgame(this);
-    gamebar = new Gamebar(game, this);
+        setupMusicLoop();
+        setupSoundSource();
 
-    menu = new Menu(this);
-    menu->setEnabled(false);
-    menu->hide();
+        connect(this, &window::setGameSkin, game, &Game::handleSetSkin);
+        connect(game, &Game::setGamebarSkin, gamebar, &Gamebar::handleSetSkin);
+        connect(game, &Game::finishMatchSignal, this, [=](Winner winner) {
+            handleMatchEnding(winner);
+            });
+        connect(gamebar, &Gamebar::betButtonClicked, this, &window::handleBetButtonClicked);
+        connect(gamebar, &Gamebar::menuButtonClicked, this, &window::handleMenuButtonClicked);
 
-    setupMusicLoop();
-    setupSound();
+        connect(menu, &MainMenu::soundButtonClicked, this, &window::handleSoundButtonClicked);
+        connect(menu, &MainMenu::faceButtonClicked, this, &window::handleFaceButtonClicked);
+        connect(menu, &MainMenu::shirtButtonClicked, this, &window::handleShirtButtonClicked);
+        connect(menu, &MainMenu::backButtonClicked, this, &window::handleBackButtonClicked);
 
-    connect(this, &BJwindow::setGameSkin, game, &BJgame::handleSetSkin);
-    connect(game, &BJgame::setGamebarSkin, gamebar, &Gamebar::handleSetSkin);
+        this->setCentralWidget(gamebar);
+    }
 
-    connect(gamebar, &Gamebar::betButtonClicked, this, &BJwindow::handleBetButtonClicked);
-    connect(gamebar, &Gamebar::menuButtonClicked, this, &BJwindow::handleMenuButtonClicked);
+    void window::setupSoundSource() {
+        sound = new QMediaPlayer(this);
+        soundOutput = new QAudioOutput(this);
+        sound->setAudioOutput(soundOutput);
+        sound->setSource(QString(QCoreApplication::applicationDirPath() + "/audio/card.mp3"));
+        soundOutput->setVolume(50);
+        connect(gamebar, &Gamebar::sound, sound, &QMediaPlayer::play);
+    }
 
-    connect(menu, &Menu::soundButtonClicked, this, &BJwindow::handleSoundButtonClicked);
-    connect(menu, &Menu::faceButtonClicked, this, &BJwindow::handleFaceButtonClicked);
-    connect(menu, &Menu::shirtButtonClicked, this, &BJwindow::handleShirtButtonClicked);
-    connect(menu, &Menu::backButtonClicked, this, &BJwindow::handleBackButtonClicked);
+    void window::setupMusicLoop() {
+        bkgndMusic = new QMediaPlayer(this);
+        musicOutput = new QAudioOutput(this);
+        bkgndMusic->setAudioOutput(musicOutput);
+        bkgndMusic->setSource(QString(QCoreApplication::applicationDirPath() + "/audio/boat.mp3"));
+        musicOutput->setVolume(50);
+        bkgndMusic->play();
+        connect(bkgndMusic, &QMediaPlayer::mediaStatusChanged, bkgndMusic, &QMediaPlayer::play);
+    }
 
-    connect(game, &BJgame::finishMatchSignal, this, [=](Winner winner) {
-        finishMatch(winner);
-        });
-    this->setCentralWidget(gamebar);
-}
+    void window::startMatch() {
+        game->reset();
+        game->getDeck().setup();
+        gamebar->setupStartMatchWidget();
+        game->setupMatch();
+        game->scoreHost();
+        gamebar->showHostScoreBar();
+        if (game->getHost().score < 21) {
+            gamebar->showMatchTable();
+        }
+    }
 
-void BJwindow::setupSound() {
-    sound = new QMediaPlayer(this);
-    soundOutput = new QAudioOutput(this);
-    sound->setAudioOutput(soundOutput);
-    sound->setSource(QString(QCoreApplication::applicationDirPath() + "/audio/card.mp3"));
-    soundOutput->setVolume(50);
+    void window::finishMatch(Winner& winner) {
+        gamebar->setupEndMatchWidget();
+        gamebar->showMatchTable();
+        gamebar->revealDealerCards();
+        gamebar->declareWinner(winner);
+    }
 
-    connect(gamebar, &Gamebar::sound, sound, &QMediaPlayer::play);
-}
+    void window::showMenu() {
+        menu->setEnabled(true);
+        menu->show();
+    }
 
-void BJwindow::setupMusicLoop() {
-    bkgndMusic = new QMediaPlayer(this);
-    musicOutput = new QAudioOutput(this);
-    bkgndMusic->setAudioOutput(musicOutput);
-    bkgndMusic->setSource(QString(QCoreApplication::applicationDirPath() + "/audio/boat.mp3"));
-    musicOutput->setVolume(50);
-    bkgndMusic->play();
-    connect(bkgndMusic, &QMediaPlayer::mediaStatusChanged, bkgndMusic, &QMediaPlayer::play);
-}
-
-void BJwindow::resizeEvent(QResizeEvent* event) {
+    void window::resizeEvent(QResizeEvent* event) {
     QMainWindow::resizeEvent(event);
     gamebar->resize();
     menu->setFixedSize(this->width(), this->height());
 }
-
-void BJwindow::handleBetButtonClicked() {
-    start();
-}
-
-void BJwindow::start() {
-    game->reset();
-    game->getDeck().setup();
-    gamebar->setupStartMatchWidget();
-    game->setupMatch();
-    game->scoreHost();
-    gamebar->setHostScoreBar();
-    if (game->getHost().score < 21) {
-        gamebar->showMatchTable();
-    }
-}
-
-void BJwindow::showMenu() {
-    menu->setEnabled(true);
-    menu->show();
-}
-
-void BJwindow::finishMatch(Winner& winner) {
-    gamebar->setupEndMatchWidget();
-    gamebar->showMatchTable();
-    gamebar->revealDealerCards();
-    gamebar->declareWinner(winner);
-}
-
-void BJwindow::handleMenuButtonClicked() {
-    showMenu();
-}
-
-void BJwindow::handleSoundButtonClicked() {
-    if (musicOutput->volume() == 0) {
-        musicOutput->setVolume(50);
-    }
-    else {
-        musicOutput->setVolume(0);
-    }
-}
-
-void BJwindow::handleFaceButtonClicked(){
-    skinMenu = new SkinMenu(this);
-    connect(skinMenu, &SkinMenu::skinChoice, this, &BJwindow::handleSkinChoice);
-
-    skinMenu->populateWindow(faceSkins);
-    skinMenu->show();
-}
-
-void BJwindow::handleShirtButtonClicked() {
-    skinMenu = new SkinMenu(this);
-    connect(skinMenu, &SkinMenu::skinChoice, this, &BJwindow::handleSkinChoice);
-
-    skinMenu->populateWindow(shirtSkins);
-    skinMenu->show();
-}
-
-void BJwindow::handleBackButtonClicked() {
-    menu->setEnabled(false);
-    menu->hide();
-    if(gamebar !=nullptr){
-        gamebar->setEnabled(true);
-    }
-}
-
-void BJwindow::handleSkinChoice(const QString& text) {
-    emit setGameSkin(text);
-}
+} //namepace BJ

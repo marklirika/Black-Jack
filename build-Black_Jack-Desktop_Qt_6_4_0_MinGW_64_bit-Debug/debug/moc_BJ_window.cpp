@@ -40,7 +40,7 @@ struct qt_meta_stringdata_BJwindow_t {
     char stringdata9[24];
     char stringdata10[17];
     char stringdata11[5];
-    char stringdata12[12];
+    char stringdata12[18];
     char stringdata13[8];
     char stringdata14[7];
 };
@@ -60,9 +60,9 @@ Q_CONSTINIT static const qt_meta_stringdata_BJwindow_t qt_meta_stringdata_BJwind
         QT_MOC_LITERAL(148, 23),  // "handleBackButtonClicked"
         QT_MOC_LITERAL(172, 16),  // "handleSkinChoice"
         QT_MOC_LITERAL(189, 4),  // "info"
-        QT_MOC_LITERAL(194, 11),  // "finishMatch"
-        QT_MOC_LITERAL(206, 7),  // "Winner&"
-        QT_MOC_LITERAL(214, 6)   // "winner"
+        QT_MOC_LITERAL(194, 17),  // "handleMatchEnding"
+        QT_MOC_LITERAL(212, 7),  // "Winner&"
+        QT_MOC_LITERAL(220, 6)   // "winner"
     },
     "BJwindow",
     "setGameSkin",
@@ -76,7 +76,7 @@ Q_CONSTINIT static const qt_meta_stringdata_BJwindow_t qt_meta_stringdata_BJwind
     "handleBackButtonClicked",
     "handleSkinChoice",
     "info",
-    "finishMatch",
+    "handleMatchEnding",
     "Winner&",
     "winner"
 };
@@ -152,7 +152,7 @@ Q_CONSTINIT const QMetaObject BJwindow::staticMetaObject = { {
         // method 'handleSkinChoice'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-        // method 'finishMatch'
+        // method 'handleMatchEnding'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<Winner &, std::false_type>
     >,
@@ -173,7 +173,7 @@ void BJwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 5: _t->handleShirtButtonClicked(); break;
         case 6: _t->handleBackButtonClicked(); break;
         case 7: _t->handleSkinChoice((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 8: _t->finishMatch((*reinterpret_cast< std::add_pointer_t<Winner&>>(_a[1]))); break;
+        case 8: _t->handleMatchEnding((*reinterpret_cast< std::add_pointer_t<Winner&>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
